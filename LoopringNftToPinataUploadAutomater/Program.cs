@@ -66,7 +66,7 @@ foreach (FileInfo nftImageFileInfo in nftImageDirectoryFileNames)
     metadataCIDTriplets.Add(nftCidTriplet);
 }
 
-//Generate nft cid pair csv here
+//Generate nft cid triplet csv here
 if(metadataCIDTriplets.Count > 0)
 {
     string csvName = $"{DateTime.Now.ToString("yyyy-mm-dd hh-mm-ss")}.csv";
