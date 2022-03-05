@@ -6,8 +6,14 @@ using System.Threading.Tasks;
 
 namespace LoopringNftToPinataUploadAutomater
 {
-    public class MetadataGuid
+    public class PinataMetadata
     {
         public string name { get; set; }
+        public KeyValues keyvalues { get; set; }
+    }
+
+    public class KeyValues
+    {
+        public string nameKey { get; set; }
     }
 }

@@ -25,10 +25,11 @@ namespace LoopringNftToPinataUploadAutomater
             request.AddHeader("pinata_api_key", apiKey);
             request.AddHeader("pinata_secret_api_key", apiKeySecret);
             request.AddFile("file", fileBytes, fileName);
+            request.AddParameter("pinataMetadata", metadataGuid);
             if (wrapDirectory == true)
             {
                 request.AddParameter("pinataOptions", "{\"wrapWithDirectory\" :true}");
-                request.AddParameter("pinataMetadata", metadataGuid);
+
             }
             try
             {
