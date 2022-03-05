@@ -10,17 +10,27 @@ string nftImageDirectoryFilePath = "C:\\NFT\\FrankenLoops"; //this should point 
 
 FileInfo[] nftImageDirectoryFileNames = Directory.GetFiles(nftImageDirectoryFilePath).Select(fn => new FileInfo(fn)).ToArray();
 IPinataService pinataService = new PinataService();
-List<NftCidPair> metadataCIDPairs = new List<NftCidPair>();
+List<NftCidTriplets> metadataCIDPairs = new List<NftCidTriplets>();
 
 foreach (FileInfo nftImageFileInfo in nftImageDirectoryFileNames)
 {
     string nftId = nftImageFileInfo.Name.Split('.')[0]; //the source file directory has the nfts named as follows: 1.jpg, 2.jpg, 3.jpg, 4.jpg and etc
     string nftName = $"FrankenLoop #{nftId}"; //change this to the name of your nft
     string nftDescription = "It is a mistake to fancy that horror is associated inextricably with darkness, silence, and solitude."; //change this to the description of your nft
-
+    
     //Submit image to pinata section
+    PinataMetadata imageMetadata
+        = new PinataMetadata
+    {
+        name = nftName + " - image",
+        keyvalues = new KeyValues
+        {
+            nameKey = nftName + " - image"
+        }
+    };
+    string pinataImageMetadataJsonString = JsonConvert.SerializeObject(imageMetadata);
     Console.WriteLine($"Uploading {nftName} image to Pinata");
-    PinataResponseData? pinataImageResponseData = await pinataService.SubmitPin(apiKey, apiKeySecret, File.ReadAllBytes(nftImageFileInfo.FullName), nftName);
+    PinataResponseData? pinataImageResponseData = await pinataService.SubmitPin(apiKey, apiKeySecret, File.ReadAllBytes(nftImageFileInfo.FullName), nftName, metadataGuid: pinataImageMetadataJsonString);
     Console.WriteLine($"{nftName} image uploaded to Pinata successfully");
 
     //Submit metadata.json to pinata section
@@ -30,23 +40,28 @@ foreach (FileInfo nftImageFileInfo in nftImageDirectoryFileNames)
         description = nftDescription,
         image = "ipfs://" + pinataImageResponseData.IpfsHash
     };
-    MetadataGuid metadataGuid = new MetadataGuid
+    PinataMetadata metadatajson = new PinataMetadata
     {
-        name = nftName + " - metadata.json"
+        name = nftName + " - metadata.json",
+        keyvalues = new KeyValues
+        {
+            nameKey = nftName + " - metadata.json"
+        }
     };
-    string metadataGuidJsonString = JsonConvert.SerializeObject(metadataGuid);
-    string metaDataJsonString = JsonConvert.SerializeObject(nftMetadata);
-    byte[] metaDataByteArray = Encoding.ASCII.GetBytes(metaDataJsonString);
+    string pinataMetadataJsonString = JsonConvert.SerializeObject(metadatajson);
+    string nftMetadataJsonSTring = JsonConvert.SerializeObject(nftMetadata);
+    byte[] nftMetaDataByteArray = Encoding.ASCII.GetBytes(nftMetadataJsonSTring);
     Console.WriteLine($"Uploading {nftName} metadata to Pinata");
-    PinataResponseData? pinataMetadataResponseData = await pinataService.SubmitPin(apiKey, apiKeySecret, metaDataByteArray, "metadata.json", true, metadataGuidJsonString);
+    PinataResponseData? pinataMetadataResponseData = await pinataService.SubmitPin(apiKey, apiKeySecret, nftMetaDataByteArray, "metadata.json", true, pinataMetadataJsonString);
     Console.WriteLine($"{nftName} metadata uploaded to Pinata successfully");
     Console.WriteLine($"Generated CID {pinataMetadataResponseData.IpfsHash}");
 
     //Add nft cid pair to list for later csv generation
-    NftCidPair nftCidPair = new NftCidPair
+    NftCidTriplets nftCidPair = new NftCidTriplets
     {
         Id = nftName,
-        MetadataCid = pinataMetadataResponseData.IpfsHash
+        MetadataCid = pinataMetadataResponseData.IpfsHash,
+        ImageCid = pinataImageResponseData.IpfsHash
     };
     metadataCIDPairs.Add(nftCidPair);
 }
