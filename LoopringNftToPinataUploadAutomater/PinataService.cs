@@ -40,12 +40,12 @@ namespace LoopringNftToPinataUploadAutomater
             {
                 if(wrapDirectory == true)
                 {
-                    Console.WriteLine($"Issue uploading metadata file for {fileName}");
+                    Console.WriteLine($"Issue uploading metadata file for {fileName}, Exception message: {httpException.Message}");
                     return null;
                 }
                 else
                 {
-                    Console.WriteLine($"Issue uploading image file for {fileName}");
+                    Console.WriteLine($"Issue uploading image file for {fileName}, Exception message: {httpException.Message}");
                     return null;
                 }
             }
