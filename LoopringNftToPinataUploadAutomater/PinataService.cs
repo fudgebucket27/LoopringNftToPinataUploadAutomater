@@ -19,13 +19,13 @@ namespace LoopringNftToPinataUploadAutomater
             _client = new RestClient(_baseUrl);
         }
 
-        public async Task<PinataResponseData?> SubmitPin(string apiKey, string apiKeySecret, byte[] fileBytes, string fileName, bool wrapDirectory = false, string metadataGuid = null)
+        public async Task<PinataResponseData?> SubmitPin(string apiKey, string apiKeySecret, byte[] fileBytes, string fileName, bool wrapDirectory = false, string pinataMetadata = null)
         {
             var request = new RestRequest("pinning/pinFileToIPFS");
             request.AddHeader("pinata_api_key", apiKey);
             request.AddHeader("pinata_secret_api_key", apiKeySecret);
             request.AddFile("file", fileBytes, fileName);
-            request.AddParameter("pinataMetadata", metadataGuid);
+            request.AddParameter("pinataMetadata", pinataMetadata);
             if (wrapDirectory == true)
             {
                 request.AddParameter("pinataOptions", "{\"wrapWithDirectory\" :true}");

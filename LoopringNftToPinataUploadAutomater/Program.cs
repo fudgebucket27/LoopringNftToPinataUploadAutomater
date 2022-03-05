@@ -30,7 +30,7 @@ foreach (FileInfo nftImageFileInfo in nftImageDirectoryFileNames)
     };
     string pinataImageMetadataJsonString = JsonConvert.SerializeObject(imageMetadata);
     Console.WriteLine($"Uploading {nftName} image to Pinata");
-    PinataResponseData? pinataImageResponseData = await pinataService.SubmitPin(apiKey, apiKeySecret, File.ReadAllBytes(nftImageFileInfo.FullName), nftName, metadataGuid: pinataImageMetadataJsonString);
+    PinataResponseData? pinataImageResponseData = await pinataService.SubmitPin(apiKey, apiKeySecret, File.ReadAllBytes(nftImageFileInfo.FullName), nftName, pinataMetadata: pinataImageMetadataJsonString);
     Console.WriteLine($"{nftName} image uploaded to Pinata successfully");
 
     //Submit metadata.json to pinata section

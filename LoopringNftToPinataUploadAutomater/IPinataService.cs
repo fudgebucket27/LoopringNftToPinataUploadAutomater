@@ -8,6 +8,6 @@ namespace LoopringNftToPinataUploadAutomater
 {
     public interface IPinataService
     {
-        Task<PinataResponseData?> SubmitPin(string apikey, string apiKeySecret, byte[] fileBytes, string fileName, bool wrapDirectory = false, string metadataGuid = null);
+        Task<PinataResponseData?> SubmitPin(string apikey, string apiKeySecret, byte[] fileBytes, string fileName, bool wrapDirectory = false, string pinataMetadata = null);
     }
 }
