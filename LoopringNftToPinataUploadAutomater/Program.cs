@@ -10,7 +10,7 @@ string nftImageDirectoryFilePath = "C:\\NFT\\FrankenLoops"; //this should point 
 
 FileInfo[] nftImageDirectoryFileNames = Directory.GetFiles(nftImageDirectoryFilePath).Select(fn => new FileInfo(fn)).ToArray();
 IPinataService pinataService = new PinataService();
-List<NftCidTriplets> metadataCIDPairs = new List<NftCidTriplets>();
+List<NftCidTriplet> metadataCIDPairs = new List<NftCidTriplet>();
 
 foreach (FileInfo nftImageFileInfo in nftImageDirectoryFileNames)
 {
@@ -56,14 +56,14 @@ foreach (FileInfo nftImageFileInfo in nftImageDirectoryFileNames)
     Console.WriteLine($"{nftName} metadata uploaded to Pinata successfully");
     Console.WriteLine($"Generated CID {pinataMetadataResponseData.IpfsHash}");
 
-    //Add nft cid pair to list for later csv generation
-    NftCidTriplets nftCidPair = new NftCidTriplets
+    //Add nft cid triple to list for later csv generation
+    NftCidTriplet nftCidTriplet = new NftCidTriplet
     {
         Id = nftName,
         MetadataCid = pinataMetadataResponseData.IpfsHash,
         ImageCid = pinataImageResponseData.IpfsHash
     };
-    metadataCIDPairs.Add(nftCidPair);
+    metadataCIDPairs.Add(nftCidTriplet);
 }
 
 //Generate nft cid pair csv here

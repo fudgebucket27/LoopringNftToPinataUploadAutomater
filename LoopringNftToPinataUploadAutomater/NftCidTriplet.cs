@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LoopringNftToPinataUploadAutomater
 {
-    public class NftCidTriplets
+    public class NftCidTriplet
     {
         public string Id { get; set; }
         public string MetadataCid { get; set; }
