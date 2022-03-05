@@ -74,7 +74,7 @@ if(metadataCIDTriplets.Count > 0)
     using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
     {
         csv.WriteRecords(metadataCIDTriplets);
-        Console.WriteLine($"Generated NFT ID/Metadata CID/Image Triples csv: {csvName} in current directory");
+        Console.WriteLine($"Generated NFT ID/Metadata CID/Image CID Triplets csv: {csvName} in current directory");
     }
 }
 else
