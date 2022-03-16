@@ -17,7 +17,8 @@ foreach (FileInfo nftImageFileInfo in nftImageDirectoryFileNames)
     string nftId = nftImageFileInfo.Name.Split('.')[0]; //the source file directory has the nfts named as follows: 1.jpg, 2.jpg, 3.jpg, 4.jpg and etc, split on the '.' to just grab the id portion
     string nftName = $"FrankenLoop #{nftId}"; //change this to the name of your nft
     string nftDescription = "It is a mistake to fancy that horror is associated inextricably with darkness, silence, and solitude."; //change this to the description of your nft
-    
+    int nftRoyaltyPercantage = 6; //royalty percantage between 0 - 10
+
     //Submit image to pinata section
     PinataMetadata imageMetadata
         = new PinataMetadata
@@ -38,7 +39,8 @@ foreach (FileInfo nftImageFileInfo in nftImageDirectoryFileNames)
     {
         name = nftName,
         description = nftDescription,
-        image = "ipfs://" + pinataImageResponseData.IpfsHash
+        image = "ipfs://" + pinataImageResponseData.IpfsHash,
+        royalty_percentage = nftRoyaltyPercantage
     };
     PinataMetadata metadatajson = new PinataMetadata
     {
