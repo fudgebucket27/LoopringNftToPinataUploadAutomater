@@ -1,23 +1,30 @@
-﻿using CsvHelper;
-using LoopringNftToPinataUploadAutomater;
+﻿using LoopringNftToPinataUploadAutomater;
 using Newtonsoft.Json;
-using System.Globalization;
-using System.Text;
 
-string apiKey = Environment.GetEnvironmentVariable("PINATAAPIKEY", EnvironmentVariableTarget.Machine);//you can either set an environmental variable or input it here directly.
-string apiKeySecret = Environment.GetEnvironmentVariable("PINATAAPIKEYSECRET", EnvironmentVariableTarget.Machine); //you can either set an environmental variable or input it here directly.
-string nftImageDirectoryFilePath = "C:\\NFT\\FrankenLoops"; //this should point to a directory that only contains your images in the naming format: 1.jpg, 2.jpg, 3.jpg and etc
 
-FileInfo[] nftImageDirectoryFileNames = Directory.GetFiles(nftImageDirectoryFilePath).Select(fn => new FileInfo(fn)).ToArray();
-IPinataService pinataService = new PinataService();
-List<NftCidTriplet> metadataCIDTriplets = new List<NftCidTriplet>();
-
-foreach (FileInfo nftImageFileInfo in nftImageDirectoryFileNames)
+for(int i = 667; i <= 888; i++)
 {
-    string nftId = nftImageFileInfo.Name.Split('.')[0]; //the source file directory has the nfts named as follows: 1.jpg, 2.jpg, 3.jpg, 4.jpg and etc, split on the '.' to just grab the id portion
+    string nftId = i.ToString(); //the source file directory has the nfts named as follows: 1.jpg, 2.jpg, 3.jpg, 4.jpg and etc, split on the '.' to just grab the id portion
     string nftName = $"FrankenLoop #{nftId}"; //change this to the name of your nft
     string nftDescription = "It is a mistake to fancy that horror is associated inextricably with darkness, silence, and solitude."; //change this to the description of your nft
     int nftRoyaltyPercantage = 6; //royalty percantage between 0 - 10
+
+    //Submit metadata.json to pinata section
+    NftMetadata nftMetadata = new NftMetadata
+    {
+        name = nftName,
+        description = nftDescription,
+        image = $"ipfs://QmTkHR9Wfggn5wH7jGxrvpKuu8XpDV4jF95Vq1ncaN6MmQ/{i}.jpg",
+        royalty_percentage = nftRoyaltyPercantage
+    };
+    string nftMetadataJsonString = JsonConvert.SerializeObject(nftMetadata);
+    File.WriteAllText($"D:\\frankenloops4json\\{i}.json", nftMetadataJsonString);
+}
+
+/*
+foreach (FileInfo nftImageFileInfo in nftImageDirectoryFileNames)
+{
+
 
     //Submit image to pinata section
     PinataMetadata imageMetadata
@@ -84,6 +91,7 @@ else
 {
     Console.WriteLine("Did not generate any Metadata CIDS");
 }
+*/
 
 Console.WriteLine("Enter any key to end:");
 Console.ReadKey();
