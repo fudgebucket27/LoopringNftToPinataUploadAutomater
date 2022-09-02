@@ -1,13 +1,11 @@
 ﻿using LoopringNftToPinataUploadAutomater;
 using Newtonsoft.Json;
 
-string[] cities = new string[] { "Andorra", "Tirana", "Vienna", "Sarajevo", "Brussels", "Sofia", "Minsk", "Bern", "Nicosia", "Prague", "Berlin", "Copenhagen", "Tallinn", "Madrid", "Helsinki", "Paris", "London", "Athens", "Zagreb", "Budapest", "Dublin", "Reykjavik", "Rome", "Vaduz", "Vilnius", "Luxembourg", "Riga", "Monaco", "Chisinau", "Podgorica", "Skopje", "Valletta", "Amsterdam", "Oslo", "Warsaw", "Lisbon", "Bucharest", "Belgrade", "Moscow", "Stockholm", "Ljubljana", "Bratislava", "San Marino", "Kiev" };
-
-foreach(var city in cities)
+for(int i= 889; i <= 1111; i++)
 {
-    string nftId = city; //the source file directory has the nfts named as follows: 1.jpg, 2.jpg, 3.jpg, 4.jpg and etc, split on the '.' to just grab the id portion
-    string nftName = $"Faux Weather -{nftId}"; //change this to the name of your nft
-    string nftDescription = "Weather for Darwin by Fudgey.eth(dev) and mehigh.loopring.eth(art)"; //change this to the description of your nft
+    string nftId = i; //the source file directory has the nfts named as follows: 1.jpg, 2.jpg, 3.jpg, 4.jpg and etc, split on the '.' to just grab the id portion
+    string nftName = $"FrankenLoop #{nftId}"; //change this to the name of your nft
+    string nftDescription = $"It is a mistake to fancy that horror is associated inextricably with darkness, silence, and solitude."; //change this to the description of your nft
     int nftRoyaltyPercantage = 6; //royalty percantage between 0 - 10
 
     //Submit metadata.json to pinata section
@@ -15,12 +13,11 @@ foreach(var city in cities)
     {
         name = nftName,
         description = nftDescription,
-        image = $"ipfs://QmSuKeEHF9HBR4TuHqMwrKuxmV395jjWEsC1Chn69gVeQu/{nftId}.png",
-        animation_url = $"ipfs://QmcbTFUjBGjmpwRt9L5jbB51sA3nBQdiMrtUifHLEhentW/{nftId}",
+        image = $"ipfs://QmQsoWPvJV43rBarrAA9DSxeyq5saPnoRxT95s5a4Ard8W/{nftId}.jpg",
         royalty_percentage = nftRoyaltyPercantage
     };
     string nftMetadataJsonString = JsonConvert.SerializeObject(nftMetadata);
-    File.WriteAllText($"C:\\temp\\fauaxweatheEuropeJson\\{nftId}.json", nftMetadataJsonString);
+    File.WriteAllText($"C:\\temp\\frankenloops5\\{nftId}.json", nftMetadataJsonString);
 }
 
 /*
