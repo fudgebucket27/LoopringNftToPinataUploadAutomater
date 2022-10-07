@@ -12,5 +12,11 @@ namespace LoopringNftToPinataUploadAutomater
         public string description { get; set; }
         public string image { get; set; }
         public int royalty_percentage { get; set; }
+
+        public string animation_url { get; set; }
+
+        public string mint_channel { get; set; } = "Loopring";
+
+        public string collection_metadata { get; set; }
     }
 }

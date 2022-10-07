@@ -6,7 +6,7 @@ using System.Text;
 
 string apiKey = Environment.GetEnvironmentVariable("PINATAAPIKEY", EnvironmentVariableTarget.Machine);//you can either set an environmental variable or input it here directly.
 string apiKeySecret = Environment.GetEnvironmentVariable("PINATAAPIKEYSECRET", EnvironmentVariableTarget.Machine); //you can either set an environmental variable or input it here directly.
-string nftImageDirectoryFilePath = "C:\\NFT\\FrankenLoops"; //this should point to a directory that only contains your images in the naming format: 1.jpg, 2.jpg, 3.jpg and etc
+string nftImageDirectoryFilePath = "D:\\frankenloops hd\\pinata images"; //this should point to a directory that only contains your images in the naming format: 1.jpg, 2.jpg, 3.jpg and etc
 
 FileInfo[] nftImageDirectoryFileNames = Directory.GetFiles(nftImageDirectoryFilePath).Select(fn => new FileInfo(fn)).ToArray();
 IPinataService pinataService = new PinataService();
@@ -15,9 +15,9 @@ List<NftCidTriplet> metadataCIDTriplets = new List<NftCidTriplet>();
 foreach (FileInfo nftImageFileInfo in nftImageDirectoryFileNames)
 {
     string nftId = nftImageFileInfo.Name.Split('.')[0]; //the source file directory has the nfts named as follows: 1.jpg, 2.jpg, 3.jpg, 4.jpg and etc, split on the '.' to just grab the id portion
-    string nftName = $"FrankenLoop #{nftId}"; //change this to the name of your nft
-    string nftDescription = "It is a mistake to fancy that horror is associated inextricably with darkness, silence, and solitude."; //change this to the description of your nft
-    int nftRoyaltyPercantage = 6; //royalty percantage between 0 - 10
+    string nftName = $"FrankenLoops HD #{nftId}"; //change this to the name of your nft
+    string nftDescription = "FrankenLoops hand drawn with inspiration from images generated through a machine learning algorithm. View the images that inspired the collection at https://fudgey.io/frankenloopshd"; //change this to the description of your nft
+    int nftRoyaltyPercantage = 5; //royalty percantage between 0 - 10
 
     //Submit image to pinata section
     PinataMetadata imageMetadata
@@ -40,7 +40,9 @@ foreach (FileInfo nftImageFileInfo in nftImageDirectoryFileNames)
         name = nftName,
         description = nftDescription,
         image = "ipfs://" + pinataImageResponseData.IpfsHash,
-        royalty_percentage = nftRoyaltyPercantage
+        animation_url = "ipfs://" + pinataImageResponseData.IpfsHash,
+        royalty_percentage = nftRoyaltyPercantage,
+        collection_metadata = "https://nftinfos.loopring.io/0x2549e16c0d6fd0e6a8e2441e6cfad110d5d78cb7"
     };
     PinataMetadata metadatajson = new PinataMetadata
     {
